@@ -1,0 +1,35 @@
+{
+  "maxVisibleReleases": 5,
+  "releases": [
+    {
+      "id": "v1.3",
+      "title": "Improved Error Tracking",
+      "date": "2026-02-28",
+      "blurb": "The Error Rate card now shows real-time trends and alerts when the rate exceeds your configured threshold. Click the card for a detailed breakdown.",
+      "image": null,
+      "externalLink": "https://example.com/release-notes/v1.3",
+      "affectedRoutes": ["index.html"],
+      "walkthrough": "error-tracking"
+    },
+    {
+      "id": "v1.2",
+      "title": "New Reports Dashboard",
+      "date": "2026-02-20",
+      "blurb": "A brand new Reports screen with trend charts and filterable data views. Access it from the sidebar navigation.",
+      "image": null,
+      "externalLink": "https://example.com/release-notes/v1.2",
+      "affectedRoutes": ["index.html", "reports.html"],
+      "walkthrough": "reports-overview"
+    },
+    {
+      "id": "v1.1",
+      "title": "Activity Log Enhancements",
+      "date": "2026-02-10",
+      "blurb": "The Recent Activity table now includes status indicators and sortable columns for quicker triage.",
+      "image": null,
+      "externalLink": null,
+      "affectedRoutes": ["index.html"],
+      "walkthrough": null
+    }
+  ]
+}

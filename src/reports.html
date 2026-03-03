@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback Cycle — Reports</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Balsamiq Sans + Redacted Script Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@400;700&family=Redacted+Script:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <!-- Remix Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Driver.js (walkthroughs) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.3.1/dist/driver.css">
+  <script src="https://cdn.jsdelivr.net/npm/driver.js@1.3.1/dist/driver.js.iife.js"></script>
+
+  <!-- Brand variables -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Apply brand font globally via Tailwind config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['var(--brand-font)', 'cursive'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Semantic component classes -->
+  <style type="text/tailwindcss">
+    @layer components {
+
+      /* ── Page Layout ── */
+      .page-bg         { @apply text-base; background-color: var(--surface-page); color: var(--text-heading); }
+
+      /* ── Typography ── */
+      .type-title       { @apply text-2xl font-bold; color: var(--text-title); }
+      .type-modal-title { @apply text-xl font-bold; color: var(--text-title); }
+      .type-heading     { @apply text-lg font-bold; color: var(--text-heading); }
+      .type-body        { @apply text-base font-normal; color: var(--text-body); }
+      .type-body-emphasis { @apply text-base font-bold; color: var(--text-heading); }
+      .type-caption     { @apply text-sm font-normal; color: var(--text-caption); }
+      .type-muted       { @apply text-sm font-normal; color: var(--text-placeholder); }
+
+      /* ── Wireframe Placeholder Text (Squiggles) ── */
+      .wire-title       { @apply font-bold; font-size: 2.025rem; color: var(--text-title); font-family: 'Redacted Script', cursive; }
+      .wire-modal-title { @apply font-bold; font-size: 1.6875rem; color: var(--text-title); font-family: 'Redacted Script', cursive; }
+      .wire-heading     { @apply font-bold; font-size: 1.5rem; color: var(--text-heading); font-family: 'Redacted Script', cursive; }
+      .wire-body        { @apply font-normal; font-size: 1.35rem; color: var(--text-body); font-family: 'Redacted Script', cursive; }
+      .wire-body-emphasis { @apply font-bold; font-size: 1.35rem; color: var(--text-heading); font-family: 'Redacted Script', cursive; }
+      .wire-caption     { @apply font-normal; font-size: 1.18rem; color: var(--text-caption); font-family: 'Redacted Script', cursive; }
+      .wire-muted       { @apply font-normal; font-size: 1.18rem; color: var(--text-placeholder); font-family: 'Redacted Script', cursive; }
+
+      /* ── Text Links ── */
+      .text-link       { @apply underline underline-offset-2 transition-colors duration-150; color: var(--text-body); }
+      .text-link:hover { color: var(--text-max-contrast); }
+
+      /* ── Buttons ── */
+      .btn-primary     { @apply font-bold px-6 py-2.5 rounded-lg shadow-sm transition-colors duration-150 cursor-pointer border-none; background-color: var(--brand-primary); color: var(--brand-on-primary); }
+      .btn-primary:hover { background-color: var(--brand-primary-hover); }
+      .btn-ghost       { @apply font-bold px-6 py-2.5 rounded-lg transition-colors duration-150 cursor-pointer; background-color: transparent; color: var(--text-body); border: 1px solid var(--control-border); }
+      .btn-ghost:hover { background-color: var(--surface-inset); }
+      .btn-cancel      { @apply font-bold px-6 py-2.5 rounded-lg transition-colors duration-150 cursor-pointer; background-color: var(--control-bg-strong); color: var(--text-heading); border: 1px solid var(--control-border-strong); }
+      .btn-cancel:hover { background-color: var(--control-bg-strong-hover); }
+
+      /* ── Form Elements ── */
+      .form-label      { @apply text-sm font-bold mb-1 block; color: var(--text-heading); }
+      .form-checkbox   { @apply w-4 h-4 rounded; border: 1px solid var(--control-border); accent-color: var(--control-accent); }
+      .form-check-label { @apply text-base ml-2; color: var(--text-body); }
+      .form-textarea   { @apply w-full rounded-lg px-3 py-2 resize-y min-h-[80px] focus:outline-none; background-color: var(--surface-card); color: var(--text-heading); border: 1px solid var(--control-border); }
+      .form-textarea::placeholder { color: var(--text-placeholder); }
+      .form-textarea:focus { border-color: var(--control-focus-border); box-shadow: 0 0 0 1px var(--control-focus-ring); }
+
+      /* ── Cards & Containers ── */
+      .card-standard   { @apply rounded-xl shadow-sm p-4; background-color: var(--surface-card); border: 1px solid var(--border-light); }
+      .card-light      { @apply rounded-lg px-6 py-3; background-color: var(--surface-card-alt); border: 1px solid var(--border-light); }
+      .card-prominent  { @apply rounded-xl shadow-lg w-full max-w-lg mx-4 text-left; background-color: var(--surface-card); border: 1px solid var(--border-light); }
+
+      /* ── Modal ── */
+      .modal-overlay   { @apply fixed inset-0 flex items-center justify-center z-50; background-color: var(--surface-overlay); }
+      .modal-header    { @apply px-6 py-3; }
+      .modal-divider   { border-color: var(--border-default); }
+      .modal-body      { @apply px-6 py-4; }
+      .modal-actions   { @apply flex justify-end gap-3; }
+      .modal-actions-split { @apply flex items-center justify-between gap-3; }
+
+      /* ── Inline Status ── */
+      .inline-positive { @apply inline-flex items-center gap-1 text-sm; color: var(--brand-primary); }
+      .inline-warning  { @apply inline-flex items-center gap-1 text-sm; color: var(--brand-warning); }
+
+      /* ── Content Sections ── */
+      .content-section        { @apply rounded-lg overflow-hidden; border: 1px solid var(--border-light); }
+      .content-section-header { @apply font-bold text-sm px-4 py-2; background-color: var(--surface-section-header); color: var(--text-on-dark); }
+      .content-section-body   { @apply px-4 py-4; background-color: var(--surface-card); }
+
+      /* ── Left Sidebar ── */
+      .sidebar              { @apply w-56 flex flex-col h-full transition-all duration-200 shrink-0; background-color: var(--surface-sidebar); color: var(--text-on-dark); }
+      .sidebar.sidebar-collapsed { @apply w-16; }
+      .sidebar-brand        { @apply px-4 py-4 font-bold text-lg flex items-center gap-3; color: var(--text-on-dark); border-bottom: 1px solid var(--border-strong); }
+      .sidebar-item         { @apply flex items-center gap-3 px-4 py-2.5 text-sm rounded-lg mx-2 transition-colors duration-150 cursor-pointer no-underline; color: var(--text-on-dark-muted); }
+      .sidebar-item:hover   { background-color: var(--surface-section-header); color: var(--text-on-dark); }
+      .sidebar-item-active  { @apply font-bold; background-color: var(--surface-section-header); color: var(--text-on-dark); }
+      .sidebar-section-label { @apply text-xs font-bold uppercase tracking-wider px-4 pt-4 pb-1; color: var(--text-on-dark-faint); }
+      .sidebar-toggle       { @apply flex items-center justify-center p-2 transition-colors duration-150 cursor-pointer; color: var(--control-icon-muted); }
+      .sidebar-toggle:hover { color: var(--text-on-dark); }
+
+      /* ── Right Panel (Slide-Out) ── */
+      .panel-right          { @apply fixed top-0 right-0 h-full w-80 shadow-lg z-40 flex flex-col transition-transform duration-200 translate-x-full; background-color: var(--surface-card); border-left: 1px solid var(--border-light); }
+      .panel-right.panel-open { @apply translate-x-0; }
+      .panel-backdrop       { @apply fixed inset-0 z-30; background-color: var(--surface-overlay-light); }
+      .panel-right-header   { @apply flex items-center justify-between px-5 py-3 shrink-0; border-bottom: 1px solid var(--border-light); }
+      .panel-right-title    { @apply font-bold text-base; color: var(--text-title); }
+      .panel-right-close    { @apply text-xl cursor-pointer transition-colors duration-150; color: var(--control-icon-muted); }
+      .panel-right-close:hover { color: var(--control-icon-muted-hover); }
+      .panel-right-body     { @apply px-5 py-4 overflow-y-auto flex-1; }
+      .panel-right-footer   { @apply px-5 py-3 shrink-0; background-color: var(--surface-inset); border-top: 1px solid var(--border-light); }
+
+      /* ── App Shell ── */
+      .app-shell            { @apply flex h-screen overflow-hidden; background-color: var(--surface-page); }
+      .app-shell-content    { @apply flex-1 flex flex-col overflow-hidden; }
+      .app-shell-header     { @apply flex items-center justify-between px-6 py-3 shrink-0; background-color: var(--surface-card); border-bottom: 1px solid var(--border-light); }
+      .app-shell-body       { @apply flex-1 overflow-y-auto px-6 py-6; }
+
+      /* ── Debug Controls ── */
+      .btn-debug           { @apply text-xs px-3 py-1.5 rounded cursor-pointer transition-colors duration-150 w-full text-left flex items-center gap-2; color: var(--text-on-dark-faint); border: 1px dashed var(--border-strong); background: transparent; }
+      .btn-debug:hover     { color: var(--text-on-dark-muted); border-color: var(--text-on-dark-faint); }
+    }
+  </style>
+</head>
+<body class="page-bg">
+
+  <div class="app-shell">
+
+    <!-- ── Left Sidebar ── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <i class="ri-layout-grid-line text-xl"></i>
+        <span class="sidebar-brand-text">AppName</span>
+      </div>
+      <div class="px-3 pt-2 pb-1">
+        <button class="sidebar-toggle w-full" id="sidebar-collapse">
+          <i class="ri-arrow-left-double-line" id="sidebar-collapse-icon"></i>
+          <span class="sidebar-link-text text-xs" style="color: var(--control-icon-muted)">Collapse</span>
+        </button>
+      </div>
+      <nav class="flex flex-col gap-1 py-3 flex-1">
+        <span class="sidebar-section-label sidebar-label-text">Main</span>
+        <a href="index.html" class="sidebar-item">
+          <i class="ri-home-line"></i> <span class="sidebar-link-text">Dashboard</span>
+        </a>
+        <a href="reports.html" class="sidebar-item sidebar-item-active">
+          <i class="ri-file-list-line"></i> <span class="sidebar-link-text">Reports</span>
+        </a>
+      </nav>
+
+      <!-- Debug controls -->
+      <div class="px-3 pb-3 flex flex-col gap-2 shrink-0" id="debug-controls">
+        <span class="text-xs uppercase tracking-wider px-1 pb-1" style="color: var(--text-on-dark-faint);">Debug</span>
+        <button class="btn-debug" id="btn-simulate-release">
+          <i class="ri-megaphone-line"></i>
+          <span class="sidebar-link-text">Reset Release</span>
+        </button>
+        <button class="btn-debug" id="btn-reset-survey">
+          <i class="ri-refresh-line"></i>
+          <span class="sidebar-link-text">Reset Survey</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ── Main Content ── -->
+    <div class="app-shell-content">
+      <header class="app-shell-header">
+        <div>
+          <h1 class="type-title text-lg">Reports</h1>
+          <p class="type-caption">Detailed analytics and breakdowns</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <!-- Release notes icon -->
+          <button class="relative p-2 rounded-lg transition-colors duration-150 cursor-pointer" style="color: var(--text-body);" id="btn-release-notes" title="What's New">
+            <i class="ri-megaphone-line text-xl"></i>
+            <span class="hidden absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full" style="background-color: var(--control-accent);" id="release-dot"></span>
+          </button>
+          <!-- Feedback icon -->
+          <button class="relative p-2 rounded-lg transition-colors duration-150 cursor-pointer" style="color: var(--text-body);" id="btn-feedback" title="Give Feedback">
+            <i class="ri-feedback-line text-xl"></i>
+          </button>
+        </div>
+      </header>
+
+      <main class="app-shell-body">
+        <!-- Chart section -->
+        <div class="content-section mb-6" id="reports-section">
+          <div class="content-section-header">Monthly Trends</div>
+          <div class="content-section-body">
+            <p class="wire-body mb-4">This section shows the key performance trends over the selected time period for all active regions in the platform.</p>
+            <div style="max-width: 500px;">
+              <canvas id="reports-chart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Summary section -->
+        <div class="content-section">
+          <div class="content-section-header">Summary</div>
+          <div class="content-section-body">
+            <p class="wire-body mb-3">A summary of the report findings would go here with key metrics and highlights from the data analysis performed on the selected date range.</p>
+            <p class="wire-body">Additional context and recommendations based on the trend data above would appear in this section of the report for stakeholders to review.</p>
+          </div>
+        </div>
+      </main>
+    </div>
+
+  </div>
+
+  <!-- App shell interactions -->
+  <script src="app.js"></script>
+  <!-- Release notes -->
+  <script src="release-notes.js"></script>
+  <!-- Walkthroughs -->
+  <script src="walkthroughs.js"></script>
+  <script src="walkthrough.js"></script>
+  <!-- Feedback -->
+  <script src="feedback.js"></script>
+
+  <!-- Chart -->
+  <script>
+    const rootStyle = getComputedStyle(document.documentElement);
+    const cv = (name) => rootStyle.getPropertyValue(name).trim();
+
+    Chart.defaults.font.family = `${cv('--brand-font')}, cursive`;
+    Chart.defaults.color = cv('--chart-axis-label');
+    Chart.defaults.borderColor = cv('--chart-gridline');
+    Chart.defaults.plugins.legend.labels.usePointStyle = true;
+
+    new Chart(document.getElementById('reports-chart'), {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [{
+          label: 'Active Users',
+          data: [120, 190, 170, 250, 220, 310],
+          borderColor: cv('--chart-series-1'),
+          backgroundColor: cv('--chart-series-1'),
+          borderWidth: 2,
+          pointRadius: 4,
+          tension: 0.1,
+        }]
+      },
+      options: {
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { grid: { color: cv('--chart-gridline') }, beginAtZero: true },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

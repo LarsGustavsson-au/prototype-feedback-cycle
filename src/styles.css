@@ -1,0 +1,97 @@
+/* ============================================================
+   FEEDBACK CYCLE PROTOTYPE — Shared Styles
+   Extracted from showcase.html style guide.
+   To rebrand: change the :root variables — all HTML stays the same.
+============================================================ */
+
+:root {
+  /* ── Brand Accent Colours ── */
+  --brand-primary:       #047857;  /* emerald-700 — primary actions, positive status */
+  --brand-primary-hover: #065F46;  /* emerald-800 — primary button hover */
+  --brand-danger:        #9F1239;  /* rose-800 — negative/error actions */
+  --brand-danger-hover:  #881337;  /* rose-900 — danger button hover */
+  --brand-warning:       #F97316;  /* orange-500 — warning status only */
+
+  /* ── Text on Accent Backgrounds ── */
+  --brand-on-primary:    #FFFFFF;
+  --brand-on-danger:     #FFFFFF;
+
+  /* ── Subtle Accent Backgrounds (validation) ── */
+  --brand-primary-subtle: #ECFDF5;  /* emerald-50 */
+  --brand-danger-subtle:  #FFF1F2;  /* rose-50 */
+
+  /* ── Surfaces (backgrounds) ── */
+  --surface-page:            #FAFAF9;
+  --surface-card:            #FFFFFF;
+  --surface-card-alt:        #FAFAF9;
+  --surface-inset:           #F5F5F4;
+  --surface-sidebar:         #27272A;
+  --surface-footer:          #27272A;
+  --surface-section-header:  #3F3F46;
+  --surface-table-header:    #52525B;
+  --surface-overlay:         rgba(24, 24, 27, 0.5);
+  --surface-overlay-light:   rgba(24, 24, 27, 0.3);
+
+  /* ── Borders ── */
+  --border-light:            #E7E5E4;
+  --border-default:          #D1D5DB;
+  --border-strong:           #3F3F46;
+  --border-section:          #27272A;
+
+  /* ── Text ── */
+  --text-title:              #27272A;
+  --text-heading:            #3F3F46;
+  --text-body:               #52525B;
+  --text-caption:            #71717A;
+  --text-placeholder:        #9CA3AF;
+  --text-on-dark:            #FFFFFF;
+  --text-on-dark-muted:      #D1D5DB;
+  --text-on-dark-faint:      #71717A;
+  --text-max-contrast:       #18181B;
+
+  /* ── Interactive / Controls ── */
+  --control-bg:              #E7E5E4;
+  --control-bg-hover:        #D1D5DB;
+  --control-bg-strong:       #D1D5DB;
+  --control-bg-strong-hover: #9CA3AF;
+  --control-border:          #D1D5DB;
+  --control-border-strong:   #9CA3AF;
+  --control-focus-border:    #71717A;
+  --control-focus-ring:      #D1D5DB;
+  --control-accent:          #52525B;
+  --control-icon-muted:      #9CA3AF;
+  --control-icon-muted-hover:#3F3F46;
+
+  /* ── Status (non-accent) ── */
+  --status-neutral:          #D1D5DB;
+  --status-inactive-text:    #71717A;
+
+  /* ── Chart Data Series ── */
+  --chart-series-1:          #3F3F46;
+  --chart-series-2:          #71717A;
+  --chart-series-3:          #D1D5DB;
+  --chart-series-4:          #E7E5E4;
+  --chart-axis-label:        #71717A;
+  --chart-gridline:          #E7E5E4;
+  --chart-segment-border:    #FFFFFF;
+
+  /* ── Table-specific ── */
+  --table-sort-icon:         #D1D5DB;
+
+  /* ── Brand Font ── */
+  --brand-font: "Balsamiq Sans";
+}
+
+/* ── Megaphone blink animation ──
+   Two slow pulses then stays visible. Used on the release notification dot. */
+@keyframes blink-twice {
+  0%   { opacity: 0; }
+  15%  { opacity: 1; }
+  30%  { opacity: 0; }
+  45%  { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+.release-dot-blink {
+  animation: blink-twice 2s ease-in-out forwards;
+}

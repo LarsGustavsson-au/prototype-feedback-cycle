@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wireframe Style Guide — Showcase</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Balsamiq Sans + Redacted Script Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@400;700&family=Redacted+Script:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <!-- Remix Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Apply brand font globally via Tailwind config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['var(--brand-font)', 'cursive'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- ============================================================
+       BRAND VARIABLES — Change these to re-brand the entire app.
+       All semantic component classes below reference these variables.
+       To re-skin: update the hex values here, swap the font CDN link
+       above, and everything else follows.
+  ============================================================ -->
+  <style>
+    :root {
+      /* ── Brand Accent Colours ── */
+      --brand-primary:       #047857;  /* emerald-700 — primary actions, positive status */
+      --brand-primary-hover: #065F46;  /* emerald-800 — primary button hover */
+      --brand-danger:        #9F1239;  /* rose-800 — negative/error actions */
+      --brand-danger-hover:  #881337;  /* rose-900 — danger button hover */
+      --brand-warning:       #F97316;  /* orange-500 — warning status only */
+
+      /* ── Text on Accent Backgrounds ── */
+      --brand-on-primary:    #FFFFFF;
+      --brand-on-danger:     #FFFFFF;
+
+      /* ── Subtle Accent Backgrounds (validation) ── */
+      --brand-primary-subtle: #ECFDF5;  /* emerald-50 */
+      --brand-danger-subtle:  #FFF1F2;  /* rose-50 */
+
+      /* ── Surfaces (backgrounds) ── */
+      --surface-page:            #FAFAF9;
+      --surface-card:            #FFFFFF;
+      --surface-card-alt:        #FAFAF9;
+      --surface-inset:           #F5F5F4;
+      --surface-sidebar:         #27272A;
+      --surface-footer:          #27272A;
+      --surface-section-header:  #3F3F46;
+      --surface-table-header:    #52525B;
+      --surface-overlay:         rgba(24, 24, 27, 0.5);
+      --surface-overlay-light:   rgba(24, 24, 27, 0.3);
+
+      /* ── Borders ── */
+      --border-light:            #E7E5E4;
+      --border-default:          #D1D5DB;
+      --border-strong:           #3F3F46;
+      --border-section:          #27272A;
+
+      /* ── Text ── */
+      --text-title:              #27272A;
+      --text-heading:            #3F3F46;
+      --text-body:               #52525B;
+      --text-caption:            #71717A;
+      --text-placeholder:        #9CA3AF;
+      --text-on-dark:            #FFFFFF;
+      --text-on-dark-muted:      #D1D5DB;
+      --text-on-dark-faint:      #71717A;
+      --text-max-contrast:       #18181B;
+
+      /* ── Interactive / Controls ── */
+      --control-bg:              #E7E5E4;
+      --control-bg-hover:        #D1D5DB;
+      --control-bg-strong:       #D1D5DB;
+      --control-bg-strong-hover: #9CA3AF;
+      --control-border:          #D1D5DB;
+      --control-border-strong:   #9CA3AF;
+      --control-focus-border:    #71717A;
+      --control-focus-ring:      #D1D5DB;
+      --control-accent:          #52525B;
+      --control-icon-muted:      #9CA3AF;
+      --control-icon-muted-hover:#3F3F46;
+
+      /* ── Status (non-accent) ── */
+      --status-neutral:          #D1D5DB;
+      --status-inactive-text:    #71717A;
+
+      /* ── Chart Data Series ── */
+      --chart-series-1:          #3F3F46;
+      --chart-series-2:          #71717A;
+      --chart-series-3:          #D1D5DB;
+      --chart-series-4:          #E7E5E4;
+      --chart-axis-label:        #71717A;
+      --chart-gridline:          #E7E5E4;
+      --chart-segment-border:    #FFFFFF;
+
+      /* ── Table-specific ── */
+      --table-sort-icon:         #D1D5DB;
+
+      /* ── Brand Font ── */
+      --brand-font: "Balsamiq Sans";
+    }
+  </style>
+
+  <!-- ============================================================
+       SEMANTIC COMPONENT CLASSES
+       Uses Tailwind @apply for layout/spacing, CSS variables for colours.
+       To rebrand: change the :root variables above — all HTML stays the same.
+  ============================================================ -->
+  <style type="text/tailwindcss">
+    @layer components {
+
+      /* ── Page Layout ── */
+      .page-bg         { @apply text-base; background-color: var(--surface-page); color: var(--text-heading); }
+      .section-divider { @apply border-b-4; border-color: var(--border-section); }
+      .section-label   { @apply px-8 py-2; background-color: var(--surface-section-header); color: var(--text-on-dark); }
+      .section-label-text { @apply text-sm font-bold tracking-widest uppercase; }
+
+      /* ── Typography ── */
+      .type-title       { @apply text-2xl font-bold; color: var(--text-title); }
+      .type-modal-title { @apply text-xl font-bold; color: var(--text-title); }
+      .type-heading     { @apply text-lg font-bold; color: var(--text-heading); }
+      .type-body        { @apply text-base font-normal; color: var(--text-body); }
+      .type-body-emphasis { @apply text-base font-bold; color: var(--text-heading); }
+      .type-caption     { @apply text-sm font-normal; color: var(--text-caption); }
+      .type-muted       { @apply text-sm font-normal; color: var(--text-placeholder); }
+
+      /* ── Wireframe Placeholder Text (Squiggles) ── */
+      /* Redacted Script has a smaller x-height than Balsamiq Sans, so we scale up ~35% to match visually */
+      .wire-title       { @apply font-bold; font-size: 2.025rem; color: var(--text-title); font-family: 'Redacted Script', cursive; }
+      .wire-modal-title { @apply font-bold; font-size: 1.6875rem; color: var(--text-title); font-family: 'Redacted Script', cursive; }
+      .wire-heading     { @apply font-bold; font-size: 1.5rem; color: var(--text-heading); font-family: 'Redacted Script', cursive; }
+      .wire-body        { @apply font-normal; font-size: 1.35rem; color: var(--text-body); font-family: 'Redacted Script', cursive; }
+      .wire-body-emphasis { @apply font-bold; font-size: 1.35rem; color: var(--text-heading); font-family: 'Redacted Script', cursive; }
+      .wire-caption     { @apply font-normal; font-size: 1.18rem; color: var(--text-caption); font-family: 'Redacted Script', cursive; }
+      .wire-muted       { @apply font-normal; font-size: 1.18rem; color: var(--text-placeholder); font-family: 'Redacted Script', cursive; }
+
+      /* ── Text Links ── */
+      .text-link       { @apply underline underline-offset-2 transition-colors duration-150; color: var(--text-body); }
+      .text-link:hover { color: var(--text-max-contrast); }
+
+      /* ── Buttons ── */
+      .btn-primary     { @apply font-bold px-6 py-2.5 rounded-lg shadow-sm transition-colors duration-150 cursor-pointer border-none; background-color: var(--brand-primary); color: var(--brand-on-primary); }
+      .btn-primary:hover { background-color: var(--brand-primary-hover); }
+      .btn-secondary   { @apply font-bold px-6 py-2.5 rounded-lg shadow-sm transition-colors duration-150 cursor-pointer; background-color: var(--control-bg); color: var(--text-heading); border: 1px solid var(--control-border); }
+      .btn-secondary:hover { background-color: var(--control-bg-hover); }
+      .btn-danger      { @apply font-bold px-6 py-2.5 rounded-lg shadow-sm transition-colors duration-150 cursor-pointer border-none; background-color: var(--brand-danger); color: var(--brand-on-danger); }
+      .btn-danger:hover { background-color: var(--brand-danger-hover); }
+      .btn-ghost       { @apply font-bold px-6 py-2.5 rounded-lg transition-colors duration-150 cursor-pointer; background-color: transparent; color: var(--text-body); border: 1px solid var(--control-border); }
+      .btn-ghost:hover { background-color: var(--surface-inset); }
+      .btn-cancel      { @apply font-bold px-6 py-2.5 rounded-lg transition-colors duration-150 cursor-pointer; background-color: var(--control-bg-strong); color: var(--text-heading); border: 1px solid var(--control-border-strong); }
+      .btn-cancel:hover { background-color: var(--control-bg-strong-hover); }
+      .btn-disabled    { @apply cursor-not-allowed px-6 py-2.5 rounded-lg font-bold; background-color: var(--surface-inset); color: var(--text-placeholder); border: 1px solid var(--border-light); }
+      .btn-next        { @apply font-bold px-6 py-2.5 rounded-lg shadow-sm transition-colors duration-150 cursor-pointer; background-color: var(--control-bg); color: var(--text-heading); border: 1px solid var(--control-border); }
+      .btn-next:hover  { background-color: var(--control-bg-hover); }
+      .btn-previous    { @apply font-bold px-6 py-2.5 rounded-lg shadow-sm transition-colors duration-150 cursor-pointer; background-color: var(--control-bg); color: var(--text-heading); border: 1px solid var(--control-border); }
+      .btn-previous:hover { background-color: var(--control-bg-hover); }
+
+      /* ── Form Elements ── */
+      .form-label      { @apply text-sm font-bold mb-1 block; color: var(--text-heading); }
+      .form-helper     { @apply text-sm mt-1; color: var(--text-caption); }
+      .form-error      { @apply text-sm mt-1; color: var(--brand-danger); }
+      .form-success    { @apply text-sm mt-1; color: var(--brand-primary); }
+      .form-input      { @apply w-full rounded-lg px-3 py-2 focus:outline-none; background-color: var(--surface-card); color: var(--text-heading); border: 1px solid var(--control-border); }
+      .form-input::placeholder { color: var(--text-placeholder); }
+      .form-input:focus { border-color: var(--control-focus-border); box-shadow: 0 0 0 1px var(--control-focus-ring); }
+      .form-input-error   { border-color: var(--brand-danger); }
+      .form-input-error:focus { border-color: var(--brand-danger); box-shadow: 0 0 0 1px var(--brand-danger); }
+      .form-input-success { border-color: var(--brand-primary); }
+      .form-input-success:focus { border-color: var(--brand-primary); box-shadow: 0 0 0 1px var(--brand-primary); }
+      .form-input-disabled { @apply cursor-not-allowed; background-color: var(--surface-inset); color: var(--text-placeholder); border-color: var(--border-light); }
+      .form-select     { @apply w-full appearance-none rounded-lg px-3 py-2 pr-8 focus:outline-none; background-color: var(--surface-card); color: var(--text-heading); border: 1px solid var(--control-border); }
+      .form-select:focus { border-color: var(--control-focus-border); box-shadow: 0 0 0 1px var(--control-focus-ring); }
+      .form-textarea   { @apply w-full rounded-lg px-3 py-2 resize-y min-h-[80px] focus:outline-none; background-color: var(--surface-card); color: var(--text-heading); border: 1px solid var(--control-border); }
+      .form-textarea::placeholder { color: var(--text-placeholder); }
+      .form-textarea:focus { border-color: var(--control-focus-border); box-shadow: 0 0 0 1px var(--control-focus-ring); }
+      .form-checkbox   { @apply w-4 h-4 rounded; border: 1px solid var(--control-border); accent-color: var(--control-accent); }
+      .form-radio      { @apply w-4 h-4; border: 1px solid var(--control-border); accent-color: var(--control-accent); }
+      .form-check-label { @apply text-base ml-2; color: var(--text-body); }
+
+      /* ── Star Rating ── */
+      .star-rating       { @apply inline-flex gap-1 cursor-pointer text-xl; }
+      .star-rating i     { color: var(--status-neutral); transition: color 150ms ease-in-out; }
+      .star-rating i.filled { color: var(--control-accent); }
+      .star-rating:hover i { color: var(--status-neutral); }
+      .star-rating:hover i.hovered { color: var(--control-icon-muted-hover); }
+
+      /* ── Cards & Containers ── */
+      .card-standard   { @apply rounded-xl shadow-sm p-4; background-color: var(--surface-card); border: 1px solid var(--border-light); }
+      .card-light      { @apply rounded-lg px-6 py-3; background-color: var(--surface-card-alt); border: 1px solid var(--border-light); }
+      .card-prominent  { @apply rounded-xl shadow-lg w-full max-w-lg mx-4 text-left; background-color: var(--surface-card); border: 1px solid var(--border-light); }
+
+      /* ── Modal ── */
+      .modal-overlay   { @apply fixed inset-0 flex items-center justify-center z-50; background-color: var(--surface-overlay); }
+      .modal-header    { @apply px-6 py-3; }
+      .modal-divider   { border-color: var(--border-default); }
+      .modal-body      { @apply px-6 py-4; }
+      .modal-actions   { @apply flex justify-end gap-3; }
+      .modal-actions-split { @apply flex items-center justify-between gap-3; }
+
+      /* ── Nav Bar ── */
+      .navbar          { @apply px-8 py-3 flex items-center justify-between shadow-sm; background-color: var(--surface-card); border-bottom: 1px solid var(--border-light); }
+      .navbar-brand    { @apply font-bold text-lg; color: var(--text-title); }
+      .navbar-link     { @apply text-base transition-colors duration-150; color: var(--text-body); }
+      .navbar-link:hover { color: var(--text-max-contrast); }
+
+      /* ── Status Lights (dots) ── */
+      .status-dot      { @apply w-2.5 h-2.5 rounded-full inline-block; }
+      .status-positive { background-color: var(--brand-primary); }
+      .status-negative { background-color: var(--brand-danger); }
+      .status-warning  { background-color: var(--brand-warning); }
+      .status-neutral  { background-color: var(--status-neutral); }
+
+      /* ── Inline Status (icon + text — user supplies only the copy) ── */
+      .inline-positive { @apply inline-flex items-center gap-1 text-sm; color: var(--brand-primary); }
+      .inline-negative { @apply inline-flex items-center gap-1 text-sm; color: var(--brand-danger); }
+      .inline-warning  { @apply inline-flex items-center gap-1 text-sm; color: var(--brand-warning); }
+
+      /* ── Footer ── */
+      .footer          { @apply px-8 py-6 flex items-center justify-between text-sm; background-color: var(--surface-footer); color: var(--text-placeholder); }
+      .footer-link     { @apply transition-colors duration-150; }
+      .footer-link:hover { color: var(--text-on-dark); }
+
+      /* ── Tables ── */
+      .table-simple       { @apply w-auto text-sm border-collapse; }
+      .table-simple th    { @apply font-bold text-left py-2 px-3; color: var(--text-heading); border-bottom: 1px solid var(--border-default); }
+      .table-simple td    { @apply py-2 px-3; color: var(--text-body); }
+      .table-simple .table-totals td { @apply font-bold; color: var(--text-heading); border-top: 1px solid var(--border-default); }
+      .table-num          { @apply text-right; }
+
+      .table-report       { @apply w-full text-sm border-collapse; }
+      .table-report th    { @apply font-bold text-left py-2.5 px-3 sticky top-0; background-color: var(--surface-table-header); color: var(--text-on-dark); }
+      .table-report td    { @apply py-2 px-3; color: var(--text-body); }
+      .table-report tbody tr:nth-child(even) { background-color: var(--surface-card-alt); }
+      .table-report tbody tr:nth-child(odd)  { background-color: var(--surface-card); }
+      .table-sort         { @apply ml-1; color: var(--table-sort-icon); }
+
+      /* ── Content Sections ── */
+      .content-section        { @apply rounded-lg overflow-hidden; border: 1px solid var(--border-light); }
+      .content-section-header { @apply font-bold text-sm px-4 py-2; background-color: var(--surface-section-header); color: var(--text-on-dark); }
+      .content-section-body   { @apply px-4 py-4; background-color: var(--surface-card); }
+      .content-section-footer { @apply px-4 py-3; background-color: var(--surface-inset); border-top: 1px solid var(--border-light); }
+
+      /* ── Field Row ── */
+      .field-row { @apply flex flex-col sm:flex-row gap-4; }
+
+      /* ── Step Indicators ── */
+      .step-active     { @apply w-7 h-7 rounded-full text-sm font-bold flex items-center justify-center; background-color: var(--brand-primary); color: var(--brand-on-primary); }
+      .step-inactive   { @apply w-7 h-7 rounded-full text-sm font-bold flex items-center justify-center; background-color: var(--status-neutral); color: var(--status-inactive-text); }
+      .step-connector  { @apply w-8; height: 2px; background-color: var(--status-neutral); }
+
+      /* ── Left Sidebar ── */
+      .sidebar              { @apply w-56 flex flex-col h-full transition-all duration-200; background-color: var(--surface-sidebar); color: var(--text-on-dark); }
+      .sidebar.sidebar-collapsed { @apply w-16; }
+      .sidebar-brand        { @apply px-4 py-4 font-bold text-lg flex items-center gap-3; color: var(--text-on-dark); border-bottom: 1px solid var(--border-strong); }
+      .sidebar-item         { @apply flex items-center gap-3 px-4 py-2.5 text-sm rounded-lg mx-2 transition-colors duration-150 cursor-pointer; color: var(--text-on-dark-muted); }
+      .sidebar-item:hover   { background-color: var(--surface-section-header); color: var(--text-on-dark); }
+      .sidebar-item-active  { @apply font-bold; background-color: var(--surface-section-header); color: var(--text-on-dark); }
+      .sidebar-section-label { @apply text-xs font-bold uppercase tracking-wider px-4 pt-4 pb-1; color: var(--text-on-dark-faint); }
+      .sidebar-toggle       { @apply flex items-center justify-center p-2 transition-colors duration-150 cursor-pointer; color: var(--control-icon-muted); }
+      .sidebar-toggle:hover { color: var(--text-on-dark); }
+
+      /* ── Right Panel (Slide-Out) ── */
+      .panel-right          { @apply absolute top-0 right-0 h-full w-80 shadow-lg z-40 flex flex-col transition-transform duration-200 translate-x-full; background-color: var(--surface-card); border-left: 1px solid var(--border-light); }
+      .panel-right.panel-open { @apply translate-x-0; }
+      .panel-backdrop       { @apply absolute inset-0 z-30; background-color: var(--surface-overlay-light); }
+      .panel-right-header   { @apply flex items-center justify-between px-5 py-3 shrink-0; border-bottom: 1px solid var(--border-light); }
+      .panel-right-title    { @apply font-bold text-base; color: var(--text-title); }
+      .panel-right-close    { @apply text-xl cursor-pointer transition-colors duration-150; color: var(--control-icon-muted); }
+      .panel-right-close:hover { color: var(--control-icon-muted-hover); }
+      .panel-right-body     { @apply px-5 py-4 overflow-y-auto flex-1; }
+      .panel-right-footer   { @apply px-5 py-3 shrink-0; background-color: var(--surface-inset); border-top: 1px solid var(--border-light); }
+
+      /* ── App Shell ── */
+      .app-shell            { @apply flex h-full overflow-hidden; background-color: var(--surface-page); }
+      .app-shell-content    { @apply flex-1 flex flex-col overflow-hidden; }
+      .app-shell-header     { @apply flex items-center justify-between px-6 py-3 shrink-0; background-color: var(--surface-card); border-bottom: 1px solid var(--border-light); }
+      .app-shell-body       { @apply flex-1 overflow-y-auto px-6 py-6; }
+
+      /* ── Toggle Switch ── */
+      .toggle-track         { @apply w-10 h-5 rounded-full transition-colors duration-150; background-color: var(--status-neutral); }
+      .toggle-thumb         { @apply absolute top-0.5 left-0.5 w-4 h-4 rounded-full shadow transition-all duration-150; background-color: var(--surface-card); }
+    }
+  </style>
+
+  <!-- Inline status icons injected automatically via ::before -->
+  <style>
+    .inline-positive::before { content: "\eb80"; font-family: "remixicon"; }  /* ri-checkbox-circle-fill */
+    .inline-negative::before { content: "\eb96"; font-family: "remixicon"; }  /* ri-close-circle-fill */
+    .inline-warning::before  { content: "\ea20"; font-family: "remixicon"; }  /* ri-alert-fill */
+
+    /* Toggle switch: checked state changes track colour */
+    .peer:checked ~ .toggle-track { background-color: var(--control-accent); }
+  </style>
+</head>
+<body class="page-bg">
+
+  <!-- ============================================================
+       PAGE HEADER
+  ============================================================ -->
+  <div class="bg-zinc-800 text-white px-8 py-4 text-center">
+    <p class="type-caption text-zinc-400">STYLE GUIDE SHOWCASE — All tokens rendered below</p>
+    <h1 class="type-title text-white">Prototype Wireframe Style Guide</h1>
+  </div>
+
+  <!-- ============================================================
+       SECTION 1: LANDING PAGE
+  ============================================================ -->
+  <section class="section-divider">
+
+    <!-- Section label -->
+    <div class="section-label">
+      <p class="section-label-text">Section 1 — Landing Page</p>
+    </div>
+
+    <!-- Nav Bar -->
+    <nav class="navbar">
+      <div class="flex items-center gap-3">
+        <i class="ri-layout-grid-line text-xl text-zinc-800"></i>
+        <span class="navbar-brand">AppName</span>
+      </div>
+      <div class="flex items-center gap-6">
+        <a href="#" class="navbar-link">Home</a>
+        <a href="#" class="navbar-link">Features</a>
+        <a href="#" class="navbar-link">Pricing</a>
+        <button class="btn-primary text-sm px-5 py-2">
+          <span class="flex items-center gap-2"><i class="ri-check-line"></i> Sign Up</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <div class="bg-stone-100 border-b border-stone-200 px-8 py-16 text-center">
+      <p class="type-caption mb-2 uppercase tracking-widest">Wireframe Prototype</p>
+      <h2 class="type-title mb-3">Welcome to the App</h2>
+      <p class="type-body max-w-md mx-auto mb-6">
+        A short description of what this product does. Keep it simple and clear for a wireframe context.
+        Here is a <a href="#" class="text-link">text link example</a> inline with body copy.
+      </p>
+      <div class="flex gap-3 justify-center">
+        <button class="btn-primary">
+          <span class="flex items-center gap-2"><i class="ri-check-line"></i> Get Started</span>
+        </button>
+        <button class="btn-ghost">Learn More</button>
+      </div>
+    </div>
+
+    <!-- Card Grid with Icons and Status Lights -->
+    <div class="px-8 py-10">
+      <h3 class="type-heading mb-6">Feature Cards with Status</h3>
+      <div class="grid grid-cols-3 gap-4">
+
+        <!-- Card 1 — Positive status -->
+        <div class="card-standard">
+          <div class="flex items-start justify-between mb-3">
+            <i class="ri-shield-check-line text-3xl type-caption"></i>
+            <span class="flex items-center gap-1.5 type-caption">
+              <span class="status-dot status-positive"></span>
+              Active
+            </span>
+          </div>
+          <h4 class="type-body-emphasis mb-1">Security</h4>
+          <p class="type-caption">Monitor access controls and audit logs.</p>
+        </div>
+
+        <!-- Card 2 — Warning status (wireframe squiggles demo) -->
+        <div class="card-standard">
+          <div class="flex items-start justify-between mb-3">
+            <i class="ri-notification-line text-3xl type-caption"></i>
+            <span class="flex items-center gap-1.5 type-caption">
+              <span class="status-dot status-warning"></span>
+              Warning
+            </span>
+          </div>
+          <h4 class="wire-body-emphasis mb-1">Squiggle heading text here</h4>
+          <p class="wire-caption">Some description placeholder squiggle text for this card area.</p>
+        </div>
+
+        <!-- Card 3 — Negative status -->
+        <div class="card-standard">
+          <div class="flex items-start justify-between mb-3">
+            <i class="ri-cloud-line text-3xl type-caption"></i>
+            <span class="flex items-center gap-1.5 type-caption">
+              <span class="status-dot status-negative"></span>
+              Error
+            </span>
+          </div>
+          <h4 class="type-body-emphasis mb-1">Sync Service</h4>
+          <p class="type-caption">Data synchronisation to cloud storage.</p>
+        </div>
+
+        <!-- Card 4 — Neutral status -->
+        <div class="card-standard">
+          <div class="flex items-start justify-between mb-3">
+            <i class="ri-calendar-line text-3xl type-caption"></i>
+            <span class="flex items-center gap-1.5 type-caption">
+              <span class="status-dot status-neutral"></span>
+              Idle
+            </span>
+          </div>
+          <h4 class="type-body-emphasis mb-1">Scheduler</h4>
+          <p class="type-caption">Automated task scheduling and queuing.</p>
+        </div>
+
+        <!-- Card 5 — Icon status lights variant -->
+        <div class="card-standard">
+          <div class="flex items-start justify-between mb-3">
+            <i class="ri-user-line text-3xl type-caption"></i>
+            <span class="inline-positive">Verified</span>
+          </div>
+          <h4 class="type-body-emphasis mb-1">User Accounts</h4>
+          <p class="type-caption">Manage users, roles, and permissions.</p>
+        </div>
+
+        <!-- Card 6 — Light card variant -->
+        <div class="card-light flex flex-col justify-center">
+          <h4 class="type-body-emphasis mb-1">Light Card Variant</h4>
+          <p class="type-caption">Minimal elevation, used for secondary content or metadata sections.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Text Links Reference -->
+    <div class="px-8 pb-4">
+      <h3 class="type-heading mb-4">Text Links</h3>
+      <div class="card-standard flex gap-8 flex-wrap">
+        <span class="type-body">Inline link: <a href="#" class="text-link">click here to learn more</a></span>
+        <span class="type-caption">Caption link: <a href="#" class="text-link">view documentation</a></span>
+      </div>
+    </div>
+
+    <!-- Status Lights Reference Row -->
+    <div class="px-8 pb-8">
+      <h3 class="type-heading mb-4">Status Light Reference</h3>
+      <div class="card-standard flex gap-8 flex-wrap">
+        <span class="flex items-center gap-2 type-body text-sm">
+          <span class="status-dot status-positive"></span> Positive / Active
+        </span>
+        <span class="flex items-center gap-2 type-body text-sm">
+          <span class="status-dot status-negative"></span> Negative / Error
+        </span>
+        <span class="flex items-center gap-2 type-body text-sm">
+          <span class="status-dot status-warning"></span> Warning
+        </span>
+        <span class="flex items-center gap-2 type-body text-sm">
+          <span class="status-dot status-neutral"></span> Neutral / Idle
+        </span>
+        <span class="inline-positive">Verified</span>
+        <span class="inline-negative">Connection failed</span>
+        <span class="inline-warning">Expiring soon</span>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <span>&copy; 2026 AppName. All rights reserved.</span>
+      <div class="flex gap-6">
+        <a href="#" class="footer-link">Privacy</a>
+        <a href="#" class="footer-link">Terms</a>
+        <a href="#" class="footer-link">Contact</a>
+      </div>
+    </footer>
+
+  </section>
+
+  <!-- ============================================================
+       SECTION 2: FORM ENTRY
+  ============================================================ -->
+  <section class="section-divider">
+
+    <div class="section-label">
+      <p class="section-label-text">Section 2 — Form Entry</p>
+    </div>
+
+    <!-- Nav Bar (repeated to show it in form context) -->
+    <nav class="navbar">
+      <div class="flex items-center gap-3">
+        <i class="ri-layout-grid-line text-xl text-zinc-800"></i>
+        <span class="navbar-brand">AppName</span>
+      </div>
+      <div class="flex items-center gap-6">
+        <a href="#" class="navbar-link">Dashboard</a>
+        <a href="#" class="navbar-link">Settings</a>
+        <a href="#" class="navbar-link flex items-center gap-1"><i class="ri-search-line"></i> Search</a>
+        <a href="#" class="navbar-link flex items-center gap-1"><i class="ri-question-line"></i> Help</a>
+        <button class="btn-primary text-sm px-5 py-2">
+          <span class="flex items-center gap-2"><i class="ri-check-line"></i> Save</span>
+        </button>
+      </div>
+    </nav>
+
+    <div class="px-8 py-10 max-w-2xl">
+
+      <h2 class="type-title mb-1">Create Account</h2>
+      <p class="type-caption mb-8">Fill in your details to get started.</p>
+
+      <form class="flex flex-col gap-5" onsubmit="return false;">
+
+        <!-- Text Input — default -->
+        <div>
+          <label class="form-label">Full Name</label>
+          <input type="text" placeholder="Jane Smith" class="form-input">
+          <p class="form-helper">As it appears on your ID.</p>
+        </div>
+
+        <!-- Text Input — error state -->
+        <div>
+          <label class="form-label">Email Address</label>
+          <input type="email" value="not-an-email" class="form-input form-input-error">
+          <p class="form-error">Please enter a valid email address.</p>
+        </div>
+
+        <!-- Text Input — success state -->
+        <div>
+          <label class="form-label">Username</label>
+          <input type="text" value="janesmith42" class="form-input form-input-success">
+          <p class="form-success">Username is available.</p>
+        </div>
+
+        <!-- Text Input — disabled -->
+        <div>
+          <label class="form-label">Account ID</label>
+          <input type="text" value="ACC-00421" disabled class="form-input form-input-disabled">
+          <p class="form-helper">Assigned automatically.</p>
+        </div>
+
+        <!-- Select Dropdown -->
+        <div>
+          <label class="form-label">Country</label>
+          <div class="relative">
+            <select class="form-select">
+              <option value="">Select a country&hellip;</option>
+              <option>Australia</option>
+              <option>United Kingdom</option>
+              <option>United States</option>
+            </select>
+            <i class="ri-arrow-down-s-line absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" style="color: var(--control-icon-muted)"></i>
+          </div>
+        </div>
+
+        <!-- Textarea -->
+        <div>
+          <label class="form-label">Bio</label>
+          <textarea placeholder="Tell us a little about yourself&hellip;" rows="3" class="form-textarea"></textarea>
+        </div>
+
+        <!-- Checkboxes -->
+        <div>
+          <p class="form-label mb-2">Preferences</p>
+          <div class="flex flex-col gap-2">
+            <label class="flex items-center">
+              <input type="checkbox" checked class="form-checkbox">
+              <span class="form-check-label">Email me about product updates</span>
+            </label>
+            <label class="flex items-center">
+              <input type="checkbox" class="form-checkbox">
+              <span class="form-check-label">Enable two-factor authentication</span>
+            </label>
+            <label class="flex items-center">
+              <input type="checkbox" disabled class="form-checkbox opacity-40">
+              <span class="type-muted ml-2">Receive SMS alerts (requires verified phone)</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Radio Buttons -->
+        <div>
+          <p class="form-label mb-2">Account Type</p>
+          <div class="flex flex-col gap-2">
+            <label class="flex items-center">
+              <input type="radio" name="account-type" checked class="form-radio">
+              <span class="form-check-label">Personal</span>
+            </label>
+            <label class="flex items-center">
+              <input type="radio" name="account-type" class="form-radio">
+              <span class="form-check-label">Business</span>
+            </label>
+            <label class="flex items-center">
+              <input type="radio" name="account-type" class="form-radio">
+              <span class="form-check-label">Non-profit</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Toggle Switch -->
+        <div>
+          <p class="form-label mb-2">Notifications</p>
+          <label class="flex items-center gap-3 cursor-pointer">
+            <div class="relative">
+              <input type="checkbox" checked id="toggle" class="sr-only peer">
+              <div class="toggle-track"></div>
+              <div class="toggle-thumb peer-checked:translate-x-5"></div>
+            </div>
+            <span class="form-check-label">Push notifications enabled</span>
+          </label>
+        </div>
+
+        <!-- Star Rating -->
+        <div>
+          <p class="form-label mb-2">Satisfaction</p>
+          <div class="star-rating" data-value="3" id="star-rating-demo">
+            <i class="ri-star-fill"></i>
+            <i class="ri-star-fill"></i>
+            <i class="ri-star-fill"></i>
+            <i class="ri-star-line"></i>
+            <i class="ri-star-line"></i>
+          </div>
+          <p class="form-helper">Click a star to rate (click again to deselect)</p>
+        </div>
+
+        <!-- Wireframe Placeholder Text (Squiggles) Demo -->
+        <div class="pt-4 border-t" style="border-color: var(--border-light);">
+          <p class="form-label mb-1">Wireframe Placeholder Text</p>
+          <p class="type-caption mb-4">Use <code class="px-1 rounded" style="background-color: var(--surface-inset);">wire-</code> classes instead of <code class="px-1 rounded" style="background-color: var(--surface-inset);">type-</code> to render squiggly placeholder lines. Type any words — more words = more squiggle. Swap to <code class="px-1 rounded" style="background-color: var(--surface-inset);">type-</code> when real copy is ready.</p>
+
+          <div class="flex flex-col gap-3 mb-4">
+            <div>
+              <span class="type-caption">wire-title:</span>
+              <h2 class="wire-title">Page title placeholder text</h2>
+            </div>
+            <div>
+              <span class="type-caption">wire-heading:</span>
+              <h3 class="wire-heading">Section heading squiggle text here</h3>
+            </div>
+            <div>
+              <span class="type-caption">wire-body:</span>
+              <p class="wire-body">A paragraph of body copy showing roughly how much content goes here in this area of the screen layout for the prototype.</p>
+            </div>
+            <div>
+              <span class="type-caption">wire-caption:</span>
+              <p class="wire-caption">Helper text or label squiggle at caption size</p>
+            </div>
+          </div>
+
+          <div>
+            <label class="form-label">Example: form field with squiggle label</label>
+            <p class="wire-caption mb-1">Some helper description squiggle text for this field</p>
+            <input type="text" placeholder="Jane Smith" class="form-input">
+          </div>
+        </div>
+
+        <!-- All Button Types -->
+        <div class="pt-2">
+          <p class="form-label mb-3">Button Types</p>
+          <div class="flex flex-wrap gap-3">
+            <button class="btn-primary">
+              <span class="flex items-center gap-2"><i class="ri-check-line"></i> Primary</span>
+            </button>
+            <button class="btn-secondary">Secondary</button>
+            <button class="btn-danger">Danger</button>
+            <button class="btn-ghost">Ghost</button>
+            <button class="btn-cancel">
+              <span class="flex items-center gap-2"><i class="ri-arrow-go-back-line"></i> Cancel</span>
+            </button>
+            <button class="btn-next">
+              <span class="flex items-center gap-2">Next <i class="ri-arrow-right-line"></i></span>
+            </button>
+            <button class="btn-previous">
+              <span class="flex items-center gap-2"><i class="ri-arrow-left-line"></i> Previous</span>
+            </button>
+            <button disabled class="btn-disabled">Disabled</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+  </section>
+
+  <!-- ============================================================
+       SECTION 3: TABLES & CHARTS
+  ============================================================ -->
+  <section class="section-divider">
+
+    <div class="section-label">
+      <p class="section-label-text">Section 3 — Tables &amp; Charts</p>
+    </div>
+
+    <div class="px-8 py-10 space-y-10">
+
+      <!-- ── Small Table ── -->
+      <div>
+        <h3 class="type-heading mb-4">Small Table</h3>
+        <div class="card-standard inline-block">
+          <table class="table-simple">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Category</th>
+                <th class="table-num">Qty</th>
+                <th class="table-num">Unit Price</th>
+                <th class="table-num">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Widget A</td><td>Hardware</td><td class="table-num">12</td><td class="table-num">$4.00</td><td class="table-num">$48.00</td></tr>
+              <tr><td>Widget B</td><td>Software</td><td class="table-num">5</td><td class="table-num">$12.50</td><td class="table-num">$62.50</td></tr>
+              <tr><td>Widget C</td><td>Hardware</td><td class="table-num">8</td><td class="table-num">$7.25</td><td class="table-num">$58.00</td></tr>
+              <tr><td>Widget D</td><td>Services</td><td class="table-num">3</td><td class="table-num">$25.00</td><td class="table-num">$75.00</td></tr>
+              <tr class="table-totals"><td colspan="2">Total</td><td class="table-num">28</td><td class="table-num"></td><td class="table-num">$243.50</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── Large Table ── -->
+      <div>
+        <h3 class="type-heading mb-4">Large Table (Report Style)</h3>
+        <div class="content-section">
+          <div class="content-section-header">Quarterly Sales Report</div>
+          <div class="content-section-body p-0 overflow-auto max-h-64">
+            <table class="table-report">
+              <thead>
+                <tr>
+                  <th>Product <i class="ri-arrow-up-s-line table-sort"></i></th>
+                  <th>Region</th>
+                  <th class="table-num">Units Sold <i class="ri-arrow-down-s-line table-sort"></i></th>
+                  <th class="table-num">Revenue</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Alpha Pro</td><td>North</td><td class="table-num">1,240</td><td class="table-num">$62,000</td><td><span class="inline-positive">On Track</span></td></tr>
+                <tr><td>Alpha Pro</td><td>South</td><td class="table-num">890</td><td class="table-num">$44,500</td><td><span class="inline-positive">On Track</span></td></tr>
+                <tr><td>Beta Lite</td><td>North</td><td class="table-num">2,100</td><td class="table-num">$42,000</td><td><span class="inline-warning">Review</span></td></tr>
+                <tr><td>Beta Lite</td><td>South</td><td class="table-num">1,560</td><td class="table-num">$31,200</td><td><span class="inline-positive">On Track</span></td></tr>
+                <tr><td>Gamma Edge</td><td>North</td><td class="table-num">430</td><td class="table-num">$34,400</td><td><span class="inline-negative">Behind</span></td></tr>
+                <tr><td>Gamma Edge</td><td>South</td><td class="table-num">610</td><td class="table-num">$48,800</td><td><span class="inline-positive">On Track</span></td></tr>
+                <tr><td>Delta Core</td><td>North</td><td class="table-num">3,200</td><td class="table-num">$96,000</td><td><span class="inline-positive">On Track</span></td></tr>
+                <tr><td>Delta Core</td><td>South</td><td class="table-num">2,750</td><td class="table-num">$82,500</td><td><span class="inline-warning">Review</span></td></tr>
+                <tr><td>Epsilon X</td><td>North</td><td class="table-num">180</td><td class="table-num">$27,000</td><td><span class="inline-negative">Behind</span></td></tr>
+                <tr><td>Epsilon X</td><td>South</td><td class="table-num">220</td><td class="table-num">$33,000</td><td><span class="inline-warning">Review</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="content-section-footer flex justify-between">
+            <span class="type-body-emphasis">10 products · 2 regions</span>
+            <span class="type-body-emphasis">Total Revenue: $501,400</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Charts ── -->
+      <div>
+        <h3 class="type-heading mb-4">Charts (Chart.js — Semantic Series Colours)</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+          <!-- Bar Chart -->
+          <div class="card-standard">
+            <p class="type-body-emphasis mb-3">Bar Chart</p>
+            <canvas id="chart-bar"></canvas>
+          </div>
+
+          <!-- Line Chart -->
+          <div class="card-standard">
+            <p class="type-body-emphasis mb-3">Line Chart</p>
+            <canvas id="chart-line"></canvas>
+          </div>
+
+          <!-- Pie Chart -->
+          <div class="card-standard">
+            <p class="type-body-emphasis mb-3">Pie Chart</p>
+            <canvas id="chart-pie"></canvas>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ============================================================
+       SECTION 4: CONTENT SECTIONS & FIELD ROWS
+  ============================================================ -->
+  <section class="section-divider">
+
+    <div class="section-label">
+      <p class="section-label-text">Section 4 — Content Sections &amp; Field Rows</p>
+    </div>
+
+    <div class="px-8 py-10 space-y-10">
+
+      <div>
+        <h3 class="type-heading mb-4">Side-by-Side Content Sections with Field Rows</h3>
+        <p class="type-caption mb-6">Two content sections displayed side by side on wide screens, stacking vertically on mobile. Field rows group related inputs on a single line.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <!-- Personal Information -->
+          <div class="content-section">
+            <div class="content-section-header">Personal Information</div>
+            <div class="content-section-body space-y-4">
+              <!-- First + Last Name — equal width field row -->
+              <div class="field-row">
+                <div class="flex-1">
+                  <label class="form-label">First Name</label>
+                  <input type="text" class="form-input" placeholder="Jane">
+                </div>
+                <div class="flex-1">
+                  <label class="form-label">Last Name</label>
+                  <input type="text" class="form-input" placeholder="Smith">
+                </div>
+              </div>
+              <!-- Date of Birth — single field, full width -->
+              <div>
+                <label class="form-label">Date of Birth</label>
+                <input type="text" class="form-input" placeholder="DD/MM/YYYY">
+              </div>
+            </div>
+          </div>
+
+          <!-- Address -->
+          <div class="content-section">
+            <div class="content-section-header">Address</div>
+            <div class="content-section-body space-y-4">
+              <!-- Street — full width -->
+              <div>
+                <label class="form-label">Street</label>
+                <input type="text" class="form-input" placeholder="123 Main Street">
+              </div>
+              <!-- City + State + Postcode — unequal widths -->
+              <div class="field-row">
+                <div class="flex-[3]">
+                  <label class="form-label">City</label>
+                  <input type="text" class="form-input" placeholder="Melbourne">
+                </div>
+                <div class="flex-[2]">
+                  <label class="form-label">State</label>
+                  <input type="text" class="form-input" placeholder="VIC">
+                </div>
+                <div class="flex-[1]">
+                  <label class="form-label">Postcode</label>
+                  <input type="text" class="form-input" placeholder="3000">
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── Full-Width Single Content Section ── -->
+      <div>
+        <h3 class="type-heading mb-4">Full-Width Content Section</h3>
+        <p class="type-caption mb-6">A single content section spans the full width. Field rows and textareas work the same way inside.</p>
+
+        <div class="content-section">
+          <div class="content-section-header">Client Notes</div>
+          <div class="content-section-body space-y-4">
+            <!-- Client Name + Date of Birth — field row -->
+            <div class="field-row">
+              <div class="flex-1">
+                <label class="form-label">Client Name</label>
+                <input type="text" class="form-input" placeholder="Jane Smith">
+              </div>
+              <div class="flex-1">
+                <label class="form-label">Date of Birth</label>
+                <input type="text" class="form-input" placeholder="DD/MM/YYYY">
+              </div>
+            </div>
+            <!-- Notes textarea -->
+            <div>
+              <label class="form-label">Notes</label>
+              <textarea rows="4" class="form-textarea">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ============================================================
+       SECTION 5: CONFIRMATION / ERROR MODALS
+  ============================================================ -->
+  <section class="section-divider">
+
+    <div class="section-label">
+      <p class="section-label-text">Section 5 — Confirmation / Error Modals</p>
+    </div>
+
+    <div class="px-8 py-10">
+      <p class="type-caption mb-6">Click a button to preview the modal overlay.</p>
+      <div class="flex gap-4">
+        <button onclick="document.getElementById('modal-success').classList.remove('hidden')" class="btn-primary">
+          <span class="flex items-center gap-2"><i class="ri-check-line"></i> Show Success Modal</span>
+        </button>
+        <button onclick="document.getElementById('modal-error').classList.remove('hidden')" class="btn-danger">
+          <span class="flex items-center gap-2"><i class="ri-close-line"></i> Show Error Modal</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Success Modal Overlay -->
+    <div id="modal-success" class="hidden modal-overlay">
+      <div class="card-prominent">
+        <div class="modal-header">
+          <h3 class="type-modal-title">Success</h3>
+        </div>
+        <hr class="modal-divider">
+        <div class="modal-body">
+          <p class="type-body mb-5">Your account has been created. You can now sign in.</p>
+          <div class="modal-actions">
+            <button onclick="document.getElementById('modal-success').classList.add('hidden')" class="btn-primary">
+              <span class="flex items-center gap-2"><i class="ri-check-line"></i> Continue</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error Modal Overlay -->
+    <div id="modal-error" class="hidden modal-overlay">
+      <div class="card-prominent">
+        <div class="modal-header">
+          <h3 class="type-modal-title">Something went wrong</h3>
+        </div>
+        <hr class="modal-divider">
+        <div class="modal-body">
+          <p class="type-body mb-5">We could not complete your request. Please try again.</p>
+          <div class="modal-actions">
+            <button onclick="document.getElementById('modal-error').classList.add('hidden')" class="btn-danger">
+              <span class="flex items-center gap-2"><i class="ri-close-line"></i> Ok</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============================================================
+       SECTION 6: PROCEDURAL & DECISION MODALS
+  ============================================================ -->
+  <section>
+
+    <div class="section-label">
+      <p class="section-label-text">Section 6 — Procedural &amp; Decision Modals</p>
+    </div>
+
+    <div class="px-8 py-10">
+      <p class="type-caption mb-6">Step-by-step flow with visual stepper, and verbose decision modal with radio options.</p>
+      <div class="flex gap-4 flex-wrap">
+        <button onclick="document.getElementById('modal-procedural').classList.remove('hidden')" class="btn-primary">
+          <span class="flex items-center gap-2"><i class="ri-check-line"></i> Open Step-by-Step Flow</span>
+        </button>
+        <button onclick="document.getElementById('modal-decision').classList.remove('hidden')" class="btn-secondary">
+          <span class="flex items-center gap-2"><i class="ri-question-line"></i> Open Decision Modal</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Procedural Modal Overlay (interactive) -->
+    <div id="modal-procedural" class="hidden modal-overlay">
+      <div class="card-prominent">
+
+        <!-- Title only above divider -->
+        <div class="modal-header">
+          <h3 class="type-modal-title" id="step-title">Getting Started</h3>
+        </div>
+
+        <hr class="modal-divider">
+
+        <div class="modal-body">
+          <!-- Step indicators below the line -->
+          <div class="flex items-center gap-2 mb-4">
+            <div class="flex items-center gap-1" id="step-indicators">
+              <span class="step-active">1</span>
+              <div class="step-connector"></div>
+              <span class="step-inactive">2</span>
+              <div class="step-connector"></div>
+              <span class="step-inactive">3</span>
+            </div>
+            <span class="type-caption ml-1" id="step-label">Step 1 of 3</span>
+          </div>
+
+          <p class="type-body mb-4" id="step-desc">Welcome to the setup wizard. We'll guide you through a few steps.</p>
+
+          <!-- Step placeholder -->
+          <div class="card-light mb-5 type-caption" id="step-placeholder">
+            Step 1 content goes here.
+          </div>
+
+          <!-- Navigation: Cancel far left | Previous + Next/Finish far right -->
+          <div class="modal-actions-split">
+            <button id="btn-cancel" class="btn-cancel">
+              <span class="flex items-center gap-2"><i class="ri-arrow-go-back-line"></i> Cancel</span>
+            </button>
+            <div class="flex gap-2">
+              <button id="btn-back" class="btn-previous opacity-40 cursor-not-allowed" disabled>
+                <span class="flex items-center gap-1"><i class="ri-arrow-left-line"></i> Previous</span>
+              </button>
+              <button id="btn-next" class="btn-next">
+                <span class="flex items-center gap-2">Next <i class="ri-arrow-right-line"></i></span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Decision Modal Overlay -->
+    <div id="modal-decision" class="hidden modal-overlay">
+      <div class="card-prominent">
+
+        <!-- Heading above divider -->
+        <div class="modal-header">
+          <h3 class="type-modal-title">How would you like to proceed?</h3>
+        </div>
+
+        <hr class="modal-divider">
+
+        <div class="modal-body">
+
+          <!-- Subheading + body text -->
+          <h4 class="type-heading mb-2">Choose an export format</h4>
+          <p class="type-body mb-5">Your report is ready to export. Each format has different trade-offs depending on how you plan to use the data. Select the option that best fits your workflow, then click Continue.</p>
+
+          <!-- Two-column radio options with descriptions -->
+          <div class="grid grid-cols-2 gap-4 mb-6">
+
+            <!-- Option A -->
+            <label class="flex items-start gap-3 cursor-pointer">
+              <input type="radio" name="decision-option" value="a" checked class="form-radio mt-1 shrink-0">
+              <div>
+                <span class="form-check-label font-bold block mb-1">Export as PDF</span>
+                <p class="type-caption">Best for sharing with stakeholders. Preserves layout and formatting. Not editable after export.</p>
+              </div>
+            </label>
+
+            <!-- Option B -->
+            <label class="flex items-start gap-3 cursor-pointer">
+              <input type="radio" name="decision-option" value="b" class="form-radio mt-1 shrink-0">
+              <div>
+                <span class="form-check-label font-bold block mb-1">Export as CSV</span>
+                <p class="type-caption">Best for further analysis in spreadsheet tools. Plain data only — no styling or charts included.</p>
+              </div>
+            </label>
+
+          </div>
+
+          <!-- Actions: Cancel left, Continue right -->
+          <div class="modal-actions-split">
+            <button onclick="document.getElementById('modal-decision').classList.add('hidden')" class="btn-cancel">
+              <span class="flex items-center gap-2"><i class="ri-arrow-go-back-line"></i> Cancel</span>
+            </button>
+            <button onclick="document.getElementById('modal-decision').classList.add('hidden')" class="btn-primary">
+              <span class="flex items-center gap-2"><i class="ri-check-line"></i> Continue</span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============================================================
+       SECTION 7: APP SHELL
+  ============================================================ -->
+  <section class="section-divider">
+
+    <div class="section-label">
+      <p class="section-label-text">Section 7 — App Shell (Sidebar + Content + Panel)</p>
+    </div>
+
+    <div class="px-8 py-10">
+      <p class="type-caption mb-6">A contained demo of the full application shell: collapsible left sidebar, main content area, and slide-out right panel. Use the chevron at the top of the sidebar to collapse/expand it, and the Filters button or external toggle to open the right panel.</p>
+
+      <!-- Toggle controls (outside the frame) -->
+      <div class="flex gap-3 mb-4">
+        <button id="shell-panel-toggle" class="btn-ghost text-sm">
+          <span class="flex items-center gap-2"><i class="ri-filter-3-line"></i> Toggle Filter Panel</span>
+        </button>
+      </div>
+
+      <!-- App Shell frame (simulated browser window) -->
+      <div class="border border-stone-200 rounded-xl overflow-hidden shadow-sm">
+
+        <!-- Fake browser chrome -->
+        <div class="bg-zinc-100 border-b border-stone-200 px-4 py-2 flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-gray-300"></span>
+          <span class="w-3 h-3 rounded-full bg-gray-300"></span>
+          <span class="w-3 h-3 rounded-full bg-gray-300"></span>
+          <span class="type-muted ml-3 text-xs">app-prototype.local/dashboard</span>
+        </div>
+
+        <!-- App Shell (fixed height container) -->
+        <div class="app-shell relative" style="height: 520px;" id="app-shell-demo">
+
+          <!-- Left Sidebar -->
+          <aside class="sidebar" id="shell-sidebar">
+            <div class="sidebar-brand">
+              <i class="ri-layout-grid-line text-xl"></i>
+              <span class="sidebar-brand-text">AppName</span>
+            </div>
+            <div class="px-3 pt-2 pb-1">
+              <button class="sidebar-toggle w-full" id="shell-sidebar-collapse">
+                <i class="ri-arrow-left-double-line" id="shell-sidebar-collapse-icon"></i>
+                <span class="sidebar-link-text text-xs" style="color: var(--control-icon-muted)">Collapse</span>
+              </button>
+            </div>
+            <nav class="flex flex-col gap-1 py-3 flex-1">
+              <span class="sidebar-section-label sidebar-label-text">Main</span>
+              <a href="#" class="sidebar-item sidebar-item-active">
+                <i class="ri-home-line"></i> <span class="sidebar-link-text">Dashboard</span>
+              </a>
+              <a href="#" class="sidebar-item">
+                <i class="ri-file-list-line"></i> <span class="sidebar-link-text">Reports</span>
+              </a>
+              <a href="#" class="sidebar-item">
+                <i class="ri-user-line"></i> <span class="sidebar-link-text">Users</span>
+              </a>
+              <a href="#" class="sidebar-item">
+                <i class="ri-calendar-line"></i> <span class="sidebar-link-text">Schedule</span>
+              </a>
+              <span class="sidebar-section-label sidebar-label-text">Admin</span>
+              <a href="#" class="sidebar-item">
+                <i class="ri-settings-3-line"></i> <span class="sidebar-link-text">Settings</span>
+              </a>
+              <a href="#" class="sidebar-item">
+                <i class="ri-question-line"></i> <span class="sidebar-link-text">Help</span>
+              </a>
+            </nav>
+          </aside>
+
+          <!-- Main Content Area -->
+          <div class="app-shell-content">
+            <header class="app-shell-header">
+              <div>
+                <h1 class="type-title text-lg">Dashboard</h1>
+                <p class="type-caption">Overview of recent activity</p>
+              </div>
+              <button class="btn-ghost text-sm" id="shell-filter-btn">
+                <span class="flex items-center gap-2"><i class="ri-filter-3-line"></i> Filters</span>
+              </button>
+            </header>
+            <main class="app-shell-body">
+              <!-- Demo content: summary cards -->
+              <div class="grid grid-cols-3 gap-4 mb-6">
+                <div class="card-standard">
+                  <p class="type-caption mb-1">Total Users</p>
+                  <p class="type-title">1,247</p>
+                  <span class="inline-positive">+12% this month</span>
+                </div>
+                <div class="card-standard">
+                  <p class="type-caption mb-1">Active Sessions</p>
+                  <p class="type-title">384</p>
+                  <span class="inline-warning">3 flagged</span>
+                </div>
+                <div class="card-standard">
+                  <p class="type-caption mb-1">Error Rate</p>
+                  <p class="type-title">0.4%</p>
+                  <span class="inline-positive">Below threshold</span>
+                </div>
+              </div>
+              <!-- Demo content: table -->
+              <div class="content-section">
+                <div class="content-section-header">Recent Activity</div>
+                <div class="content-section-body p-0">
+                  <table class="table-report">
+                    <thead>
+                      <tr>
+                        <th>User</th>
+                        <th>Action</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><td>Jane Smith</td><td>Login</td><td>2 min ago</td><td><span class="inline-positive">OK</span></td></tr>
+                      <tr><td>John Doe</td><td>Export report</td><td>15 min ago</td><td><span class="inline-positive">OK</span></td></tr>
+                      <tr><td>System</td><td>Backup job</td><td>1 hr ago</td><td><span class="inline-warning">Slow</span></td></tr>
+                      <tr><td>Admin</td><td>Config change</td><td>3 hr ago</td><td><span class="inline-positive">OK</span></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </main>
+          </div>
+
+          <!-- Right Panel Backdrop -->
+          <div class="panel-backdrop hidden" id="shell-panel-backdrop"></div>
+
+          <!-- Right Panel (Slide-Out) -->
+          <aside class="panel-right" id="shell-panel">
+            <div class="panel-right-header">
+              <span class="panel-right-title">Report Filters</span>
+              <button class="panel-right-close" id="shell-panel-close"><i class="ri-close-line"></i></button>
+            </div>
+            <div class="panel-right-body space-y-4">
+              <div>
+                <label class="form-label">Date Range</label>
+                <div class="relative">
+                  <select class="form-select">
+                    <option>Last 7 days</option>
+                    <option selected>Last 30 days</option>
+                    <option>This quarter</option>
+                    <option>Custom range</option>
+                  </select>
+                  <i class="ri-arrow-down-s-line absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" style="color: var(--control-icon-muted)"></i>
+                </div>
+              </div>
+              <div>
+                <label class="form-label">Region</label>
+                <div class="relative">
+                  <select class="form-select">
+                    <option>All regions</option>
+                    <option>North</option>
+                    <option>South</option>
+                  </select>
+                  <i class="ri-arrow-down-s-line absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" style="color: var(--control-icon-muted)"></i>
+                </div>
+              </div>
+              <div>
+                <p class="form-label mb-2">Status</p>
+                <div class="flex flex-col gap-2">
+                  <label class="flex items-center">
+                    <input type="checkbox" checked class="form-checkbox">
+                    <span class="form-check-label">Active</span>
+                  </label>
+                  <label class="flex items-center">
+                    <input type="checkbox" checked class="form-checkbox">
+                    <span class="form-check-label">Warning</span>
+                  </label>
+                  <label class="flex items-center">
+                    <input type="checkbox" class="form-checkbox">
+                    <span class="form-check-label">Error</span>
+                  </label>
+                </div>
+              </div>
+              <div>
+                <label class="form-label">Minimum Users</label>
+                <input type="number" class="form-input" placeholder="0" value="10">
+              </div>
+            </div>
+            <div class="panel-right-footer">
+              <button class="btn-primary w-full">
+                <span class="flex items-center justify-center gap-2"><i class="ri-check-line"></i> Apply Filters</span>
+              </button>
+            </div>
+          </aside>
+
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============================================================
+       STAR RATING JAVASCRIPT
+  ============================================================ -->
+  <script>
+    document.querySelectorAll('.star-rating').forEach(rating => {
+      const stars = rating.querySelectorAll('i');
+      let value = parseInt(rating.dataset.value) || 0;
+
+      function render() {
+        stars.forEach((star, i) => {
+          star.className = i < value ? 'ri-star-fill filled' : 'ri-star-line';
+        });
+      }
+
+      stars.forEach((star, i) => {
+        star.addEventListener('mouseenter', () => {
+          stars.forEach((s, j) => {
+            s.classList.toggle('hovered', j <= i);
+          });
+        });
+
+        star.addEventListener('click', () => {
+          value = (value === i + 1) ? 0 : i + 1;
+          rating.dataset.value = value;
+          render();
+        });
+      });
+
+      rating.addEventListener('mouseleave', () => {
+        stars.forEach(s => s.classList.remove('hovered'));
+      });
+
+      render();
+    });
+  </script>
+
+  <!-- ============================================================
+       CHART.JS INITIALISATION
+  ============================================================ -->
+  <script>
+    // Read brand variables from CSS for Chart.js
+    const rootStyle = getComputedStyle(document.documentElement);
+    const cv = (name) => rootStyle.getPropertyValue(name).trim();
+
+    // Chart.js defaults — use semantic brand variables
+    Chart.defaults.font.family = `${cv('--brand-font')}, cursive`;
+    Chart.defaults.color = cv('--chart-axis-label');
+    Chart.defaults.borderColor = cv('--chart-gridline');
+    Chart.defaults.plugins.legend.labels.usePointStyle = true;
+
+    // Bar Chart
+    new Chart(document.getElementById('chart-bar'), {
+      type: 'bar',
+      data: {
+        labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+        datasets: [{
+          label: 'Revenue ($k)',
+          data: [42, 58, 35, 67],
+          backgroundColor: cv('--chart-series-2'),
+          borderRadius: 4,
+        }]
+      },
+      options: {
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { grid: { color: cv('--chart-gridline') }, beginAtZero: true },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+
+    // Line Chart
+    new Chart(document.getElementById('chart-line'), {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [{
+          label: 'Active Users',
+          data: [120, 190, 170, 250, 220, 310],
+          borderColor: cv('--chart-series-1'),
+          backgroundColor: cv('--chart-series-1'),
+          borderWidth: 2,
+          pointRadius: 4,
+          tension: 0.1,
+        }]
+      },
+      options: {
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { grid: { color: cv('--chart-gridline') }, beginAtZero: true },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+
+    // Pie Chart
+    new Chart(document.getElementById('chart-pie'), {
+      type: 'pie',
+      data: {
+        labels: ['Hardware', 'Software', 'Services', 'Other'],
+        datasets: [{
+          data: [35, 30, 20, 15],
+          backgroundColor: [cv('--chart-series-1'), cv('--chart-series-2'), cv('--chart-series-3'), cv('--chart-series-4')],
+          borderWidth: 1,
+          borderColor: cv('--chart-segment-border'),
+        }]
+      },
+      options: {
+        plugins: {
+          legend: { position: 'bottom' }
+        }
+      }
+    });
+  </script>
+
+  <!-- ============================================================
+       PROCEDURAL MODAL JAVASCRIPT
+  ============================================================ -->
+  <script>
+    const steps = [
+      { title: 'Getting Started',     desc: 'Welcome to the setup wizard. We\'ll guide you through a few steps.', placeholder: 'Step 1 content goes here.' },
+      { title: 'Configure Settings',  desc: 'Choose how you\'d like to configure your workspace.',                  placeholder: 'Step 2 content goes here — inputs, choices, or information.' },
+      { title: 'Confirm & Finish',    desc: 'Review your choices before completing setup.',                        placeholder: 'Step 3 summary content goes here.' },
+    ];
+
+    let currentStep = 0;
+
+    function updateModal() {
+      const total = steps.length;
+
+      document.getElementById('step-title').textContent       = steps[currentStep].title;
+      document.getElementById('step-desc').textContent        = steps[currentStep].desc;
+      document.getElementById('step-placeholder').textContent = steps[currentStep].placeholder;
+      document.getElementById('step-label').textContent       = `Step ${currentStep + 1} of ${total}`;
+
+      // Update step indicators (uses semantic class names)
+      const indicators = document.getElementById('step-indicators');
+      indicators.innerHTML = steps.map((_, i) => {
+        const done = i <= currentStep;
+        const circle = done
+          ? `<span class="step-active">${i + 1}</span>`
+          : `<span class="step-inactive">${i + 1}</span>`;
+        const line = i < steps.length - 1 ? `<div class="step-connector"></div>` : '';
+        return circle + line;
+      }).join('');
+
+      // Back button
+      const back = document.getElementById('btn-back');
+      if (currentStep === 0) {
+        back.classList.add('opacity-40', 'cursor-not-allowed');
+        back.disabled = true;
+      } else {
+        back.classList.remove('opacity-40', 'cursor-not-allowed');
+        back.disabled = false;
+      }
+
+      // Next/Finish button
+      const next = document.getElementById('btn-next');
+      if (currentStep === total - 1) {
+        next.className = 'btn-primary';
+        next.innerHTML = '<span class="flex items-center gap-2"><i class="ri-check-line"></i> Finish</span>';
+      } else {
+        next.className = 'btn-next';
+        next.innerHTML = '<span class="flex items-center gap-2">Next <i class="ri-arrow-right-line"></i></span>';
+      }
+    }
+
+    document.getElementById('btn-next').addEventListener('click', () => {
+      if (currentStep < steps.length - 1) {
+        currentStep++;
+        updateModal();
+      } else {
+        // Finish
+        currentStep = 0;
+        document.getElementById('modal-procedural').classList.add('hidden');
+        updateModal();
+      }
+    });
+
+    document.getElementById('btn-back').addEventListener('click', () => {
+      if (currentStep > 0) { currentStep--; updateModal(); }
+    });
+
+    document.getElementById('btn-cancel').addEventListener('click', () => {
+      currentStep = 0;
+      document.getElementById('modal-procedural').classList.add('hidden');
+      updateModal();
+    });
+  </script>
+
+  <!-- ============================================================
+       APP SHELL JAVASCRIPT
+  ============================================================ -->
+  <script>
+    // Sidebar toggle (collapse / expand)
+    const sidebar = document.getElementById('shell-sidebar');
+    const collapseIcon = document.getElementById('shell-sidebar-collapse-icon');
+
+    function toggleSidebar() {
+      sidebar.classList.toggle('sidebar-collapsed');
+      const isCollapsed = sidebar.classList.contains('sidebar-collapsed');
+
+      // Toggle visibility of text elements
+      sidebar.querySelectorAll('.sidebar-link-text, .sidebar-brand-text, .sidebar-label-text').forEach(el => {
+        el.style.display = isCollapsed ? 'none' : '';
+      });
+
+      // Flip the collapse arrow icon
+      collapseIcon.className = isCollapsed
+        ? 'ri-arrow-right-double-line'
+        : 'ri-arrow-left-double-line';
+    }
+
+    document.getElementById('shell-sidebar-collapse').addEventListener('click', toggleSidebar);
+
+    // Right panel toggle (slide in / out)
+    const panel = document.getElementById('shell-panel');
+    const backdrop = document.getElementById('shell-panel-backdrop');
+
+    function openPanel() {
+      panel.classList.add('panel-open');
+      backdrop.classList.remove('hidden');
+    }
+
+    function closePanel() {
+      panel.classList.remove('panel-open');
+      backdrop.classList.add('hidden');
+    }
+
+    function togglePanel() {
+      if (panel.classList.contains('panel-open')) {
+        closePanel();
+      } else {
+        openPanel();
+      }
+    }
+
+    document.getElementById('shell-panel-toggle').addEventListener('click', togglePanel);
+    document.getElementById('shell-filter-btn').addEventListener('click', togglePanel);
+    document.getElementById('shell-panel-close').addEventListener('click', closePanel);
+    document.getElementById('shell-panel-backdrop').addEventListener('click', closePanel);
+  </script>
+
+</body>
+</html>
