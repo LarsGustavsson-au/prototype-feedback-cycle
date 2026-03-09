@@ -238,7 +238,7 @@
       <hr class="modal-divider">
       <div class="modal-body">
         <div class="mb-3">
-          <label class="form-label"><span class="wire-caption">Your feedback suggestion or question</span></label>
+          <label class="form-label">Please explain your idea here</label>
           <textarea class="form-textarea" id="fb-suggestion" rows="4" placeholder=""></textarea>
         </div>
         ${contactPermissionHTML}

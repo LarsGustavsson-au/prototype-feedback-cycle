@@ -160,10 +160,13 @@
   }
 
   // ── Reset release notes seen flag (called by debug button) ──
+  // Also clears walkthrough history so the "Looking for something?" prompt
+  // triggers again on the next revisit.
   window.resetReleaseNotesSeen = function() {
     localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem('walkthrough-history');
     showDot();
-    console.log('[Release Notes] Reset seen flag — dot re-shown');
+    console.log('[Release Notes] Reset seen flag + walkthrough history — dot re-shown');
   };
 
   // ── Wire up the release notes button ──
